@@ -1,0 +1,8 @@
+
+<div title="{{ lesson['leeractiviteit'] }}" class="lesson">
+    <p class="lesson_name">{{ lesson['leeractiviteit'] }}</p>
+    <p>
+        {{ lesson['starttijd'].strftime("%H:%M") }} - {{ lesson['eindtijd'].strftime("%H:%M") }}<br/>
+        {{ lesson['lokaal'] }}
+    </p>
+</div>

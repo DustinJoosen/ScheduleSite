@@ -1,0 +1,76 @@
+:root {
+    --main_light: rgb(255, 120, 120);
+    --main_dark: rgb(255, 100, 100);
+    --light: #e5e5e5;
+    --light_darker: #c5c5c5;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.lesson_dated {
+    border-right: 1px solid var(--light_darker);
+}
+
+.lesson_dated:nth-last-child(1){
+    border:none
+}
+
+.lesson_dated_date {
+    text-align: center;
+    font-size: 18px;
+    font-weight: lighter;
+}
+
+.lesson_dated.today {
+    background-color: var(--light);
+    border:1px solid #c5c5c5;
+    border-radius: 10px;
+}
+
+.lesson_dated.today > .lesson_dated_date::after {
+    content: ' (Today)';
+}
+
+.lesson {
+    border: 3px solid var(--main_dark);
+    border-radius: 10px;
+    background-color: var(--main_light);
+    color: var(--light);
+    font-family: Verdana, serif;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.lesson_name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lesson_name::after {
+    content: '';
+    margin-top: 5px;
+    margin-bottom: -0px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--white);
+    display: block;
+}
+
+.settings_holder {
+    width: 170px;
+    height: 50px;
+    bottom: 15px;
+    border: 3px solid var(--main_dark);
+    background-color:  var(--main_light);
+    border-radius: 0 25px 0 0;
+    text-align: center;
+    font-size: 22px;
+    padding-top:5px;
+    font-family: "Arial", serif;
+    color: var(--white);
+    cursor: pointer;
+}
