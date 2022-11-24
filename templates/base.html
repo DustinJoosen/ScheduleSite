@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <title>Windesheim schedule site - {% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        {% include 'partials/_navbar.html' %}
+    </header>
+    <main class="container mt-3">
+        {% block main %}
+        {% endblock %}
+    </main>
+    <footer>
+
+    </footer>
+    <script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>
