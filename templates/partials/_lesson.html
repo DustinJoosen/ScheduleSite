@@ -4,5 +4,6 @@
     <p>
         {{ lesson['starttijd'].strftime("%H:%M") }} - {{ lesson['eindtijd'].strftime("%H:%M") }}<br/>
         {{ lesson['lokaal'] }}
+        <span class="lesson_type" title="{{ lesson['type'] }}">{{ lesson['type'][0] }}</span>
     </p>
 </div>

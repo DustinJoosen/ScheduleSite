@@ -39,6 +39,19 @@ def convert_dates(schedule: list) -> list:
     return schedule
 
 
+def set_type(schedule: list) -> list:
+
+    for record in schedule:
+        record["type"] = 'Werkcollege'
+        if "zelfstudie" in record["publicatietekst"].lower():
+            record["type"] = "Zelfstudie"
+
+        if "hoorcollege" in record["commentaar"].lower():
+            record["type"] = "Hoorcollege"
+
+    return schedule
+
+
 # Group all the record by date in a dictionary.
 def group_by_date(schedule: list) -> dict:
     grouped: dict = {}
