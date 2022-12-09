@@ -55,5 +55,15 @@ def set_week() -> Response:
     return redirect('/')
 
 
+@app.route('/error', methods=['GET'])
+def error() -> str:
+    error: str = request.args.get("e")
+
+    return render_template(
+        'error.html',
+        error=error
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)
