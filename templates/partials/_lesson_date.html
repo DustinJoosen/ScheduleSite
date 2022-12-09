@@ -1,5 +1,5 @@
-<div class="lesson_dated {{'today' if today == grouped_lessons[0]['roosterdatum_datetime']}} col-3">
-    <p class="lesson_dated_date">{{ grouped_lessons[0]["roosterdatum_datetime"].strftime("%d %B %Y") }}</p>
+<div class="lesson_dated {{'today' if today == grouped_lessons[0]['roosterdatum_datetime']}}">
+    <p class="lesson_dated_date">{{ grouped_lessons[0]["roosterdatum_datetime"].strftime("%a %d %B") }}</p>
     <hr/>
     {% for lesson in grouped_lessons %}
         {% include 'partials/_lesson.html' %}
