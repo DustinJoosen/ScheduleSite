@@ -59,6 +59,7 @@ body {
     font-family: Verdana, serif;
     padding: 5px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .lesson_name {
@@ -103,7 +104,7 @@ body {
     border-radius: 50%;
     font-size: 15px;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgb(255, 147, 147);
 }
 
 #zelfstudie_inp {
@@ -120,23 +121,29 @@ body {
 }
 
 #greyed_main {
+    display: none;
     width: 100vw;
     height: 100vh;
     position: absolute;
     left: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.4) !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
 }
 
 .schedule_specified_lesson {
-    display: none;
-    width: 60%;
-    height: 400px;
+    width: 40%;
+    height: 350px;
     background-color: var(--main_light);
     border: 2px solid var(--main_dark);
     position: absolute;
     top: 20%;
-    left: 20%;
-    border-radius: 40px;
+    left: 30%;
+    border-radius: 20px;
+    z-index: 10;
+    color: white;
+    padding: 30px 20px 15px 50px;
 }
 
+.schedule_specified_lesson table {
+    color: white;
+}

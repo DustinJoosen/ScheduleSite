@@ -10,15 +10,21 @@ document.onkeydown = function(e) {
         // case "ArrowDown":
         //     document.getElementById("set-curr-week").click();
         //     break;
+        case "Escape":
+            document.getElementById("greyed_main").style.display = "none";
+            break;
         case "KeyK":
             document.location.href = "/reload";
             break;
     }
 }
 
+// the zelfstudie checkbox is used often
+const zscb = document.getElementById("zelfstudie_chkbx");
+
 // set show_zelfstudie depending on the checkbox
-document.getElementById("zelfstudie_chkbx").onchange = function(e) {
-    let value = document.getElementById("zelfstudie_chkbx").checked;
+zscb.onchange = function(e) {
+    let value = zscb.checked;
     if (value) {
         document.cookie = "show_zelfstudie=true";
         document.location.href = "?show_zelfstudie=true";
@@ -46,5 +52,19 @@ if (match) {
 
 // set the checked attribute on the checkbox
 if (params.show_zelfstudie === "true" || params.show_zelfstudie === "yes") {
-    document.getElementById("zelfstudie_chkbx").checked = true
+    zscb.checked = true;
 }
+
+
+$(".lesson").on("click", function () {
+    $("#greyed_main").css("display", "block");
+});
+
+$("#back_to_schedule").on("click", function () {
+    $("#greyed_main").toggle();
+})
+
+$("#copy_raw_data").on("click", function () {
+    alert("Raw JSON data is now copied to clipboard");
+    navigator.clipboard.writeText("Deze functionaliteit is nog niet af.");
+});

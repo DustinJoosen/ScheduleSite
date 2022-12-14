@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}schedule{% endblock %}
+{% block main %}
+
+<div class="schedule_main_holder">
+    {% for date, grouped_lessons in schedule.items() %}
+        {% include 'partials/_lesson_date.html' %}
+        <div class="vertical_divider"></div>
+    {% endfor %}
+</div>
+
+{% endblock %}
