@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>Windesheim schedule site - {% block title %}{% endblock %}</title>
 </head>
 <body>
+<!--    <div id="greyed_main"></div>-->
     <header>
         {% include 'partials/_navbar.html' %}
     </header>
