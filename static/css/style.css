@@ -10,12 +10,29 @@ body {
     padding: 0;
 }
 
-.lesson_dated {
-    border-right: 1px solid var(--light_darker);
+.schedule_main_holder {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    overflow-x: auto;
 }
 
-.lesson_dated:nth-last-child(1){
-    border:none
+.vertical_divider {
+    width: 1px;
+    height: 100%;
+    background-color: var(--light_darker);
+}
+
+.vertical_divider:nth-last-child(1) {
+    display: none;
+}
+
+.lesson_dated {
+    width: 270px;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline-block;
 }
 
 .lesson_dated_date {
@@ -42,6 +59,7 @@ body {
     font-family: Verdana, serif;
     padding: 5px;
     margin-bottom: 10px;
+    cursor: pointer;
 }
 
 .lesson_name {
@@ -73,4 +91,59 @@ body {
     font-family: "Arial", serif;
     color: var(--white);
     cursor: pointer;
+}
+
+.lesson_type {
+    width: 30px;
+    height: 30px;
+    float: right;
+    position: relative;
+    right: 10px;
+    border: 1px solid white;
+    padding: 3px;
+    border-radius: 50%;
+    font-size: 15px;
+    text-align: center;
+    background-color: rgb(255, 147, 147);
+}
+
+#zelfstudie_inp {
+    position: absolute;
+    top: 15px;
+    right: 40px;
+}
+#zelfstudie_chkbx {
+    transform: scale(1.5);
+}
+#zelfstudie_lbl {
+    color: white;
+    margin-right: 10px;
+}
+
+#greyed_main {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.schedule_specified_lesson {
+    width: 40%;
+    height: 350px;
+    background-color: var(--main_light);
+    border: 2px solid var(--main_dark);
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    border-radius: 20px;
+    z-index: 10;
+    color: white;
+    padding: 30px 20px 15px 50px;
+}
+
+.schedule_specified_lesson table {
+    color: white;
 }
