@@ -9,6 +9,8 @@ class CookieGenerator:
         self.username: str = username
         self.pwd: str = pwd
 
+        self.cookie: str = None
+
     async def set_aspnet_cookie(self):
         starting_time: time = time.time()
 
@@ -43,7 +45,7 @@ class CookieGenerator:
             cookies: list = await page.cookies()
             for cookie in cookies:
                 if cookie["name"] == ".AspNet.Cookies":
-                    print(cookie["value"])
+                    self.cookie = cookie["value"]
 
         except TimeoutError as ex:
             print("authentication was invalid.")
@@ -63,10 +65,10 @@ class CookieGenerator:
         loop.run_until_complete(asyncio.wait(tasks))
 
 
-if __name__ == "__main__":
-    email: str = "****"
-    paswd: str = "****"
-
-    cg: CookieGenerator = CookieGenerator(email, paswd)
-    cg.init_acynchronous_method(cg.set_aspnet_cookie)
-
+# if __name__ == "__main__":
+#     email: str = "s1184503@student.windesheim.nl"
+#     paswd: str = "LGOYET.EABWzaheer3!"
+#
+#     cg: CookieGenerator = CookieGenerator(email, paswd)
+#     cookie: str = cg.init_acynchronous_method(cg.set_aspnet_cookie)
+#

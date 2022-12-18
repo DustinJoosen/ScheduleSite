@@ -25,7 +25,6 @@ def schedule() -> Response | str:
 
     return render_template(
         "schedule.html",
-        class_name=Settings.CLASS_NAME,
         schedule=schedule,
         today=Settings.TODAY
     )
