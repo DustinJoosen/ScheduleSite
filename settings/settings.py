@@ -1,6 +1,6 @@
 import json
 from datetime import datetime, timedelta
-from schedule.browsercookie import Cookie
+from schedule.browsercookie import BrowserCookie
 from schedule.cookieencryption import transposition_decryption, transposition_encryption, substitution_decryption
 from schedule.cookiegeneration import CookieGenerator
 
@@ -23,10 +23,10 @@ class Settings:
         #     cls.CLASS_NAME = content['CLASS_NAME']
 
         # Set the cookies.
-        cookie_info: dict = Cookie.get_encrypted_cookies()
+        cookie_info: dict = BrowserCookie.get_encrypted_cookies()
 
         # If the auth cookie is set, decrypt it and set it.
-        if cookie_info["authcookie"] is not None:
+        if cookie_info["authcookie"] is not None and cookie_info["authcookie"] != "":
             decrypted_cookie: str = transposition_decryption(cookie_info["authcookie"])
             cls.COOKIE = decrypted_cookie
         else:
@@ -45,7 +45,7 @@ class Settings:
                 cls.COOKIE = cg.cookie
 
                 encrypted_cookie: str = transposition_encryption(cg.cookie)
-                Cookie.set_cookie(encrypted_cookie)
+                BrowserCookie.set_auth_cookie(encrypted_cookie)
             else:
                 raise Exception("no credentials supplied")
 

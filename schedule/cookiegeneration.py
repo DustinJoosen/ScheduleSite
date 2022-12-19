@@ -57,18 +57,12 @@ class CookieGenerator:
 
     @staticmethod
     def init_acynchronous_method(action):
-        loop = asyncio.get_event_loop()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
         tasks: list = [
             loop.create_task(action())
         ]
 
         loop.run_until_complete(asyncio.wait(tasks))
-
-
-# if __name__ == "__main__":
-#     email: str = "s1184503@student.windesheim.nl"
-#     paswd: str = "LGOYET.EABWzaheer3!"
-#
-#     cg: CookieGenerator = CookieGenerator(email, paswd)
-#     cookie: str = cg.init_acynchronous_method(cg.set_aspnet_cookie)
-#
+        loop.close()

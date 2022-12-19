@@ -1,6 +1,7 @@
 import requests
 import json
 from settings.settings import Settings
+from schedule.browsercookie import BrowserCookie
 
 
 class Client:
@@ -11,7 +12,7 @@ class Client:
     def request_schedule(self) -> list | None:
         headers: dict = {
             'content-type': 'application/json',
-            'cookie': '.AspNet.Cookies=' + Settings.COOKIE
+            'cookie': '.AspNet.Cookies=' + Settings.COOKIE if Settings.COOKIE is not None else ""
         }
 
         # Somethimes the forbidden_note string is in the cookie. if this happens, stop.
@@ -27,6 +28,7 @@ class Client:
                 return content
             except ValueError:
                 print("Could not convert response to JSON. The most likely cause is an invalid cookie.")
+                BrowserCookie.MOCK_COOKIE["auth_cookie"] = None
                 return None
 
         print(f"Response code {response.status_code}.")

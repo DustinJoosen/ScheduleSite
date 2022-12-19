@@ -1,17 +1,30 @@
 
-class Cookie:
+class BrowserCookie:
+
+    MOCK_COOKIE: dict = {
+        "credentials": {
+            "email": "****",
+            "password": "****!"
+        },
+        "authcookie": None
+    }
 
     @classmethod
     def get_encrypted_cookies(cls) -> dict:
         # TODO: make this actually get from the cookies.
-        return {
-            "credentials": {
-                "email": "S1184503@student.windesheim.nl",
-                "password": "LGOYET.EABWzaheer3!"
-            },
-            "authcookie": None
+        return BrowserCookie.MOCK_COOKIE
+
+    @classmethod
+    def set_auth_cookie(cls, cookie: str):
+        BrowserCookie.MOCK_COOKIE["authcookie"] = cookie
+
+    @classmethod
+    def set_credentials_cookie(cls, email: str, pwd: str):
+        BrowserCookie.MOCK_COOKIE["credentials"] = {
+            "email": email,
+            "password": pwd
         }
 
     @classmethod
-    def set_cookie(cls, cookie: str):
-        pass
+    def clear_auth_cookie(cls):
+        BrowserCookie.MOCK_COOKIE["authcookie"] = ""

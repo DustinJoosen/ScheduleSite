@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Authenticate</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+        <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h3>Windesheim credentials</h3>
+
+            <form method="post">
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input name="email" type="email" class="form-control" placeholder="Enter email" value="s1184503@student.windesheim.nl" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input name="password" type="password" class="form-control" placeholder="Password" value="LGOYET.EABWzaheer4!" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <span><sup>The credentials are encrypted, and saved in only your cookies.</sup></span>
+            </form>
+        </div>
+    </body>
+</html>
