@@ -19,8 +19,8 @@ def schedule() -> Response | str:
         show_zelfstudie = True
 
     schedule: dict = get_schedule(show_zelfstudie=show_zelfstudie)
-    if error_msg := schedule.get("error"):
-        return redirect(f'/error?e={error_msg}')
+    if (error_msg := schedule.get("error")) and error_msg == "schedule_is_none":
+        return redirect("/authenticate")
 
     if schedule is None:
         return redirect('/error')
