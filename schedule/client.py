@@ -28,7 +28,7 @@ class Client:
                 return content
             except ValueError:
                 print("Could not convert response to JSON. The most likely cause is an invalid cookie.")
-                BrowserCookie.MOCK_COOKIE["auth_cookie"] = None
+                BrowserCookie.clear_auth_cookie()
                 return None
 
         print(f"Response code {response.status_code}.")
