@@ -14,7 +14,12 @@ class CookieGenerator:
     async def set_aspnet_cookie(self):
         starting_time: time = time.time()
 
-        browser: Browser = await pyppeteer.launch(headless=False)
+        browser: Browser = await pyppeteer.launch(
+            headless=False,
+            handleSIGINT=False,
+            handleSIGTERM=False,
+            handleSIGHUP=False
+        )
         page: Page = await browser.newPage()
 
         try:
