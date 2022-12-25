@@ -153,3 +153,38 @@ body {
     margin-left: auto;
     margin-right: auto;
 }
+
+#loading_screen {
+    margin-top: 100px;
+}
+
+#outer_loader {
+    width: 125px;
+    height: 125px;
+    background: linear-gradient(to bottom right, violet, coral);
+    border-radius: 50%;
+    animation-name: rotate_loader;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    display: block;
+}
+
+#outer_loader::after {
+    content: '';
+    display: block;
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    background-color: white;
+    animation: none;
+}
+
+@keyframes rotate_loader {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
