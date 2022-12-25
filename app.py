@@ -8,8 +8,6 @@ from schedule.browsercookie import BrowserCookie
 
 app: Flask = Flask(__name__)
 
-Settings.load()
-
 
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:

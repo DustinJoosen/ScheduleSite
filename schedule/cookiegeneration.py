@@ -15,7 +15,7 @@ class CookieGenerator:
         starting_time: time = time.time()
 
         browser: Browser = await pyppeteer.launch(
-            headless=False,
+            # headless=False,
             handleSIGINT=False,
             handleSIGTERM=False,
             handleSIGHUP=False

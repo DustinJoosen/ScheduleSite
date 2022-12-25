@@ -147,3 +147,9 @@ body {
 .schedule_specified_lesson table {
     color: white;
 }
+
+.nav-week-set {
+    display: inline;
+    margin-left: auto;
+    margin-right: auto;
+}

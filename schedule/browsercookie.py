@@ -2,10 +2,7 @@
 class BrowserCookie:
 
     MOCK_COOKIE: dict = {
-        "credentials": {
-            "email": "****",
-            "password": "****!"
-        },
+        "credentials": None,
         "authcookie": None
     }
 

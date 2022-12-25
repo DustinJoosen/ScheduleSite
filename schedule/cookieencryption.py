@@ -1,5 +1,6 @@
 
 KEY = "********"
+OFFSET = 32
 
 
 def substitution_encryption(value: str) -> str:
@@ -29,13 +30,10 @@ def substitution_encryption(value: str) -> str:
             encrypted_bin += str(int(value_bin[j] != key_bin[j]))
 
         # Convert bin to ascii and then to chr
-        encrypted_ascii = int(encrypted_bin, 2) + 32
+        encrypted_ascii = int(encrypted_bin, 2) + OFFSET
         cipher_text += chr(encrypted_ascii)
 
     return cipher_text
-
-
-print((substitution_encryption("S1184503@student.windesheim.nl")))
 
 
 def substitution_decryption(cipher_text: str) -> str:
@@ -63,7 +61,7 @@ def substitution_decryption(cipher_text: str) -> str:
             decrypted_bin += str(int(cipher_bin[j] != key_bin[j]))
 
         # Convert bin back to ascii and then chars
-        decrypted_ascii = int(decrypted_bin, 2) + 32
+        decrypted_ascii = int(decrypted_bin, 2) + OFFSET
         plain_text += chr(decrypted_ascii)
 
     return plain_text
