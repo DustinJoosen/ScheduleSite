@@ -68,3 +68,13 @@ $("#copy_raw_data").on("click", function () {
     alert("Raw JSON data is now copied to clipboard");
     navigator.clipboard.writeText("Deze functionaliteit is nog niet af.");
 });
+
+$("#btn_accept_cookies").on("click", function () {
+   $("#cookieModal").modal("hide");
+});
+$("#btn_refuse_cookies").on("click", function () {
+    $("#cookieModal").modal("hide");
+
+});
+
+$("#cookieModal").modal("show");
