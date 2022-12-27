@@ -20,12 +20,12 @@ class Settings:
         cookie_info: dict = BrowserCookie.get_encrypted_cookies()
 
         # If the auth cookie is set, decrypt it and set it.
-        if cookie_info["authcookie"] is not None and cookie_info["authcookie"] != "":
+        if ("authcookie" in cookie_info) and cookie_info["authcookie"] is not None and cookie_info["authcookie"] != "":
             decrypted_cookie: str = transposition_decryption(cookie_info["authcookie"])
             cls.COOKIE = decrypted_cookie
         else:
             # Check if the credentials are set.
-            if cookie_info["credentials"] is not None:
+            if "authcookie" in cookie_info and cookie_info["credentials"] is not None:
 
                 # Decrypt the credentials
                 decrypted_username = substitution_decryption(cookie_info["credentials"]["email"])

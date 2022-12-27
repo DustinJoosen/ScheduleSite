@@ -23,7 +23,7 @@ def schedule() -> Response | str:
     if schedule is None:
         return redirect('/error')
 
-    print(BrowserCookie.MOCK_COOKIE)
+    print(BrowserCookie.get_mock_cookie())
 
     return render_template(
         "schedule.html",
