@@ -1,0 +1,9 @@
+TODO:
+
+    1)  Save encrypted credentials and authcookie in the browser cookies. (this branch)
+    2)  Implement cookie preferences.
+    3)  Cache the schedule responses.
+    4)  Display specific lesson.
+    5)  Make static things objects.
+    5)  Responsive hell.
+    6)  Throw online.
