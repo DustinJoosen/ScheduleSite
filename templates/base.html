@@ -8,10 +8,7 @@
     <title>Windesheim schedule site - {% block title %}{% endblock %}</title>
 </head>
 <body>
-    {% if True %}
-        {% include 'partials/_cookie.html' %}
-        <script defer>$("#cookieModal").modal("show");</script>
-    {% endif %}
+    {% include 'partials/_cookie.html' %}
     <div id="greyed_main">
         <div class="schedule_specified_lesson">
             <div class="mb-3">
@@ -49,8 +46,8 @@
     </main>
     <footer>
     </footer>
-    <script defer src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-    <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.slim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
