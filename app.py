@@ -9,7 +9,7 @@ app: Flask = Flask(__name__)
 cache: Cache = Cache(app, config={
     'CACHE_TYPE': 'filesystem',
     'CACHE_DIR': '/tmp',
-    'CACHE_DEFAULT_TIMEOUT': 10
+    'CACHE_DEFAULT_TIMEOUT': 600
 })
 cache.init_app(app)
 
