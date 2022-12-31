@@ -1,0 +1,7 @@
+TODO:
+
+    1)  Save encrypted credentials and authcookie in the browser cookies.
+    2)  Implement cookie preferences.
+    3)  Display specific lesson.
+    4)  Make static things objects.
+    5)  Responsive hell.
