@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, request
+from flask_caching import Cache
 from werkzeug import Response
 from datetime import datetime, timedelta
 from settings.settings import Settings
@@ -7,19 +8,27 @@ from schedule.cookieencryption import substitution_encryption
 from schedule.browsercookie import BrowserCookie
 
 app: Flask = Flask(__name__)
+cache: Cache = Cache(app, config={
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': '/tmp',
+    'CACHE_DEFAULT_TIMEOUT': 600
+})
+cache.init_app(app)
 
 
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:
-
+    # Handle the 'show_zelfstudie'.
     show_zelfstudie: bool = False
     if request.args.get('show_zelfstudie') in ['true', 'yes']:
         show_zelfstudie = True
 
-    schedule: dict = get_schedule(show_zelfstudie=show_zelfstudie)
-    if (error_msg := schedule.get("error")) and error_msg == "schedule_is_none":
-        return redirect("/authenticate")
+    # Get the schedule. Cache is applied.
+    schedule = get_schedule(show_zelfstudie=show_zelfstudie, cache=cache)
 
+    # Handle unexpected schedule output.
+    if (error_msg := schedule.get("error")) and error_msg == "schedule_is_none":
+        return redirect('/authenticate')
     if schedule is None:
         return redirect('/error')
 
