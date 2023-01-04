@@ -72,21 +72,9 @@ function set_cookies_allowed(allowed) {
     document.cookie = "cookies_allowed=" + allowed + "; expires=" + date_one_year_from_now;
 }
 
-
-$(".lesson").on("click", function () {
-    $("#greyed_main").css("display", "block");
-});
-
-$("#back_to_schedule").on("click", function () {
-    $("#greyed_main").toggle();
-})
-
-$("#copy_raw_data").on("click", function () {
-    alert("Raw JSON data is now copied to clipboard");
-    navigator.clipboard.writeText("Deze functionaliteit is nog niet af.");
-});
-
 if (get_cookie_by_name("cookies_allowed") == null) {
     $("#cookieModal").modal("show");
 }
 
+
+$("#lessonModal").modal();
