@@ -6,13 +6,6 @@ document.onkeydown = function(e) {
         case "ArrowRight":
             document.getElementById("set-next-week").click();
             break;
-        // case "ArrowUp":
-        // case "ArrowDown":
-        //     document.getElementById("set-curr-week").click();
-        //     break;
-        case "Escape":
-            document.getElementById("greyed_main").style.display = "none";
-            break;
         case "KeyK":
             document.location.href = "/reload";
             break;
@@ -76,5 +69,39 @@ if (get_cookie_by_name("cookies_allowed") == null) {
     $("#cookieModal").modal("show");
 }
 
+let selected_lesson = null;
 
-$("#lessonModal").modal();
+// Not proud of this. need to refactor it.
+$(".lesson").on("click", function () {
+    let lesson_id = $(this).attr("content");
+
+    // loop through all the lessons, and select the correct one based on the id.
+    for (let [key, value] of Object.entries(json_schedule)) {
+        for (let i = 0; i < value.length; i++) {
+            if (value[i]["id"] === lesson_id) {
+                selected_lesson = value[i];
+            }
+        }
+    }
+    if (selected_lesson === null) {
+        return;
+    }
+
+    // Show the modal
+    $("#lessonModal").modal();
+
+    // Add the correct info to the modal
+    $("#lessonModalTitle").text(selected_lesson["leeractiviteit"]);
+    // $("#lessonModalDate").text(clicked_lesson["roosterdatum"]);
+    $("#lessonModalRoom").text(selected_lesson["lokaal"]);
+    $("#lessonModalClass").text(selected_lesson["groepcode"]);
+    $("#lessonModalTeacher").text(selected_lesson["docentnamen"]);
+    $("#lessonModalType").text(selected_lesson["type"]);
+    $("#lessonModalOeEvl").text(selected_lesson["vaknaam"] + " | " + selected_lesson["vakcode"]);
+    $("#lessonModalComment").text(selected_lesson["commentaar"]);
+})
+
+$(".copy-raw-data").on("click", function () {
+    navigator.clipboard.writeText(JSON.stringify(selected_lesson));
+    alert("lesson data copied to clipboard, in JSON format.");
+})

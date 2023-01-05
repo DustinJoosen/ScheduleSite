@@ -50,7 +50,7 @@ def schedule() -> Response | str:
         "schedule.html",
         schedule=schedule,
         today=Settings.TODAY,
-        json_schedule=json.dumps(schedule)
+        json_schedule=dumps(schedule, default=str)
     )
 
 

@@ -2,8 +2,8 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5>Analyse en Functioneel Ontwerpen , College <span></span></h5>
-				<p class="ml-3">10:30 - 12:30  |  12 jan 2023</p>
+				<h5 id="lessonModalTitle">Analyse en Functioneel Ontwerpen , College <span></span></h5>
+				<p id="lessonModalDate" class="ml-3">10:30 - 12:30  |  12 jan 2023</p>
 				<button type="button" class="close" data-dismiss="modal">
 					<span>&times;</span>
 				</button>
@@ -12,28 +12,32 @@
 				<table class="table table-striped">
 					<tr>
 						<th>Room</th>
-						<td>AC1.18;AC1.20</td>
+						<td id="lessonModalRoom"></td>
 					</tr>
 					<tr>
 						<th>Class</th>
-						<td>WFHBOICT22.VE, WFHBOICT22.VF, WFHBOICT22.VG</td>
+						<td id="lessonModalClass"></td>
 					</tr>
 					<tr>
 						<th>Teacher(s)</th>
-						<td>A Fayez</td>
+						<td id="lessonModalTeacher"></td>
+					</tr>
+					<tr>
+						<th>Type</th>
+						<td id="lessonModalType"></td>
 					</tr>
 					<tr>
 						<th>OE/EvL</th>
-						<td>Analyse en Functioneel Ontwerpen | WFHBOICT.AFO.22</td>
+						<td id="lessonModalOeEvl"></td>
 					</tr>
 					<tr>
 						<th>Comment</th>
-						<td>Extra les voor herkansers AFO</td>
+						<td id="lessonModalComment"></td>
 					</tr>
 				</table>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-success">Copy raw data</button>
+				<button class="btn btn-success copy-raw-data">Copy raw data</button>
 				<button class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 		</div>
