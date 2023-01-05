@@ -14,6 +14,8 @@ class Settings:
     F_DAY_OF_WEEK: datetime = None
     L_DAY_OF_WEEK: datetime = None
 
+    LOADED = False
+
     @classmethod
     def load(cls):
         # Set the cookies.
@@ -49,3 +51,5 @@ class Settings:
 
         cls.F_DAY_OF_WEEK: datetime = cls.VIEWING_DATE - timedelta(days=cls.VIEWING_DATE.weekday())
         cls.L_DAY_OF_WEEK: datetime = cls.F_DAY_OF_WEEK + timedelta(days=4)
+
+        cls.LOADED = True
