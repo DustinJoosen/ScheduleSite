@@ -7,7 +7,6 @@ from schedule.cookiegeneration import CookieGenerator
 
 class Settings:
     COOKIE: str = ""
-    CLASS_NAME: str = "WFHBOICT22.VG"
 
     TODAY: datetime = None
     VIEWING_DATE: datetime = None
