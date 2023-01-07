@@ -10,6 +10,10 @@ def get_schedule(show_zelfstudie: bool = True, cache: Cache = None) -> dict:
         if (raw_schedule := cache.get("raw_schedule")) is None:
             client: Client = Client()
             raw_schedule = client.request_schedule()
+
+            if raw_schedule is None:
+                return {'error': 'schedule_is_none'}
+
             print("yo. we just did an ENTIRE request for the schedule. this bitch is now saved in the cache ( ︶︿︶)_╭∩╮")
             cache.set("raw_schedule", raw_schedule)
 

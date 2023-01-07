@@ -3,6 +3,13 @@
 {% block title %}schedule{% endblock %}
 {% block main %}
 
+<!-- this needs to be changed a little bit...or a lot -->
+<div style="display: none" id="json_info">{{ json_schedule }}</div>
+<script>
+    let json_schedule = JSON.parse(document.getElementById("json_info").innerHTML);
+</script>
+
+
 <div class="schedule_main_holder">
     {% for date, grouped_lessons in schedule.items() %}
         {% include 'partials/_lesson_date.html' %}

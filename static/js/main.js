@@ -6,13 +6,6 @@ document.onkeydown = function(e) {
         case "ArrowRight":
             document.getElementById("set-next-week").click();
             break;
-        // case "ArrowUp":
-        // case "ArrowDown":
-        //     document.getElementById("set-curr-week").click();
-        //     break;
-        case "Escape":
-            document.getElementById("greyed_main").style.display = "none";
-            break;
         case "KeyK":
             document.location.href = "/reload";
             break;
@@ -72,21 +65,55 @@ function set_cookies_allowed(allowed) {
     document.cookie = "cookies_allowed=" + allowed + "; expires=" + date_one_year_from_now;
 }
 
-
-$(".lesson").on("click", function () {
-    $("#greyed_main").css("display", "block");
-});
-
-$("#back_to_schedule").on("click", function () {
-    $("#greyed_main").toggle();
-})
-
-$("#copy_raw_data").on("click", function () {
-    alert("Raw JSON data is now copied to clipboard");
-    navigator.clipboard.writeText("Deze functionaliteit is nog niet af.");
-});
-
 if (get_cookie_by_name("cookies_allowed") == null) {
     $("#cookieModal").modal("show");
 }
 
+let selected_lesson = null;
+
+// Not proud of this. need to refactor it.
+$(".lesson").on("click", function () {
+    let lesson_id = $(this).attr("content");
+
+    // loop through all the lessons, and select the correct one based on the id.
+    for (let [key, value] of Object.entries(json_schedule)) {
+        for (let i = 0; i < value.length; i++) {
+            if (value[i]["id"] === lesson_id) {
+                selected_lesson = value[i];
+            }
+        }
+    }
+    if (selected_lesson === null) {
+        return;
+    }
+
+    // Show the modal
+    $("#lessonModal").modal();
+
+    let roosterdatum = new Date(selected_lesson["roosterdatum"]);
+    roosterdatum = ("0" + roosterdatum.getDate()).slice(-2) + "-" + ("0" + roosterdatum.getMonth() + 1).slice(-2) +
+        "-" + roosterdatum.getFullYear();
+
+    let roostertime_begin = new Date(selected_lesson["starttijd"]);
+    roostertime_begin = ("0" + roostertime_begin.getHours()).slice(-2) + ":" +
+                        ("0" + roostertime_begin.getMinutes()).slice(-2);
+
+    let roostertime_eind = new Date(selected_lesson["eindtijd"]);
+    roostertime_eind = ("0" + roostertime_eind.getHours()).slice(-2) + ":" +
+                       ("0" + roostertime_eind.getMinutes()).slice(-2);
+
+    // Add the correct info to the modal
+    $("#lessonModalTitle").text(selected_lesson["leeractiviteit"]);
+    $("#lessonModalDate").text(roosterdatum + " | " + roostertime_begin + " - " + roostertime_eind);
+    $("#lessonModalRoom").text(selected_lesson["lokaal"]);
+    $("#lessonModalClass").text(selected_lesson["groepcode"]);
+    $("#lessonModalTeacher").text(selected_lesson["docentnamen"]);
+    $("#lessonModalType").text(selected_lesson["type"]);
+    $("#lessonModalOeEvl").text(selected_lesson["vaknaam"] + " | " + selected_lesson["vakcode"]);
+    $("#lessonModalComment").text(selected_lesson["commentaar"]);
+})
+
+$(".copy-raw-data").on("click", function () {
+    navigator.clipboard.writeText(JSON.stringify(selected_lesson));
+    alert("lesson data copied to clipboard, in JSON format.");
+})

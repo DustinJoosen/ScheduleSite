@@ -6,6 +6,7 @@ from settings.settings import Settings
 from schedule.schedule import get_schedule
 from schedule.cookieencryption import substitution_encryption
 from schedule.browsercookie import BrowserCookie
+from json import dumps
 
 app: Flask = Flask(__name__)
 cache: Cache = Cache(app, config={
@@ -18,6 +19,14 @@ cache.init_app(app)
 
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:
+    # Make sure the settings are already loaded.
+    if not Settings.LOADED:
+        try:
+            Settings.load()
+        except Exception as ex:
+            print(ex)
+            return redirect("/authenticate")
+
     # Handle the 'show_zelfstudie'.
     show_zelfstudie: bool = False
     if request.args.get('show_zelfstudie') in ['true', 'yes']:
@@ -33,11 +42,15 @@ def schedule() -> Response | str:
         return redirect('/error')
 
     print(BrowserCookie.get_mock_cookie())
+    print(schedule)
+
+    #TODO: load the schedule as json inside the javascript. THis can then be used to display the correct info on the schedule details.
 
     return render_template(
         "schedule.html",
         schedule=schedule,
-        today=Settings.TODAY
+        today=Settings.TODAY,
+        json_schedule=dumps(schedule, default=str)
     )
 
 
