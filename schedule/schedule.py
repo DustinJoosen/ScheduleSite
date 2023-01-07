@@ -9,7 +9,9 @@ def get_schedule(show_zelfstudie: bool = True, cache: Cache = None) -> dict:
         # If the cache has a raw_schedule, use that. If not, send a request and add it to the cache.
         if (raw_schedule := cache.get("raw_schedule")) is None:
             client: Client = Client()
-            raw_schedule = client.request_schedule()
+
+            windesheimid: str = client.request_windesheimid()
+            raw_schedule = client.request_schedule(windesheimid)
 
             if raw_schedule is None:
                 return {'error': 'schedule_is_none'}

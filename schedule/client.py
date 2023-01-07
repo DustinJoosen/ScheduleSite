@@ -7,9 +7,9 @@ from schedule.browsercookie import BrowserCookie
 class Client:
 
     def __init__(self):
-        self.base_url: str = "https://windesheimapi.azurewebsites.net/api/v2"
+        self.base_url: str = "https://windesheimapi.azurewebsites.net"
 
-    def request_schedule(self) -> list | None:
+    def request_schedule(self, windesheimid: str) -> list | None:
         headers: dict = {
             'content-type': 'application/json',
             'cookie': '.AspNet.Cookies=' + Settings.COOKIE if Settings.COOKIE is not None else ""
@@ -21,7 +21,7 @@ class Client:
             print("The forbidden note has been found. Code red")
             return None
 
-        response: Response = requests.get(f"{self.base_url}/klas/{Settings.CLASS_NAME}/les", headers=headers)
+        response: Response = requests.get(f"{self.base_url}/api/v2/Persons/{windesheimid}/Rooster", headers=headers)
         if response.status_code == 200:
             try:
                 content: list = json.loads(response.content)
@@ -33,3 +33,16 @@ class Client:
 
         print(f"Response code {response.status_code}.")
         return None
+
+    def request_windesheimid(self) -> str | None:
+        headers: dict = {
+            'content-type': 'application/json',
+            'cookie': '.AspNet.Cookies=' + Settings.COOKIE if Settings.COOKIE is not None else ""
+        }
+
+        response: Response = requests.get(f"{self.base_url}/api/v1/Authorize/Roles", headers=headers)
+        if response.status_code == 200:
+            data: dict = json.loads(response.content)
+            return data['data']['windesheimId']
+
+        raise Exception("Could not resolve windesheimId")
