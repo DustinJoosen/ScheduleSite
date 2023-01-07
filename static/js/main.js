@@ -90,9 +90,21 @@ $(".lesson").on("click", function () {
     // Show the modal
     $("#lessonModal").modal();
 
+    let roosterdatum = new Date(selected_lesson["roosterdatum"]);
+    roosterdatum = ("0" + roosterdatum.getDate()).slice(-2) + "-" + ("0" + roosterdatum.getMonth() + 1).slice(-2) +
+        "-" + roosterdatum.getFullYear();
+
+    let roostertime_begin = new Date(selected_lesson["starttijd"]);
+    roostertime_begin = ("0" + roostertime_begin.getHours()).slice(-2) + ":" +
+                        ("0" + roostertime_begin.getMinutes()).slice(-2);
+
+    let roostertime_eind = new Date(selected_lesson["eindtijd"]);
+    roostertime_eind = ("0" + roostertime_eind.getHours()).slice(-2) + ":" +
+                       ("0" + roostertime_eind.getMinutes()).slice(-2);
+
     // Add the correct info to the modal
     $("#lessonModalTitle").text(selected_lesson["leeractiviteit"]);
-    // $("#lessonModalDate").text(clicked_lesson["roosterdatum"]);
+    $("#lessonModalDate").text(roosterdatum + " | " + roostertime_begin + " - " + roostertime_eind);
     $("#lessonModalRoom").text(selected_lesson["lokaal"]);
     $("#lessonModalClass").text(selected_lesson["groepcode"]);
     $("#lessonModalTeacher").text(selected_lesson["docentnamen"]);

@@ -16,8 +16,6 @@ def get_schedule(show_zelfstudie: bool = True, cache: Cache = None) -> dict:
 
             print("yo. we just did an ENTIRE request for the schedule. this bitch is now saved in the cache ( ︶︿︶)_╭∩╮")
             cache.set("raw_schedule", raw_schedule)
-        else:
-            print("raw_schedule in cache is already set.....with what tho")
 
     if raw_schedule is None:
         return {'error': 'schedule_is_none'}
