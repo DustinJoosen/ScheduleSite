@@ -90,9 +90,6 @@ def set_week() -> Response:
 
     BrowserCookie.set_viewingdate_cookie(date)
 
-    Settings.F_DAY_OF_WEEK = date - timedelta(days=date.weekday())
-    Settings.L_DAY_OF_WEEK = Settings.F_DAY_OF_WEEK + timedelta(days=4)
-
     return redirect('/')
 
 

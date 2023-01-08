@@ -1,13 +1,20 @@
-import datetime
+from datetime import datetime, timedelta
 from settings.settings import Settings
+from schedule.browsercookie import BrowserCookie
 
 
 # Filter unneccesairy records out of the schedule
 def filter_schedule(schedule: list, show_zelfstudie: bool) -> list:
     filtered: list = []
 
-    f_day_str: str = datetime.datetime.strftime(Settings.F_DAY_OF_WEEK, "%Y-%m-%dT%H:%M:%SZ")
-    l_day_str: str = datetime.datetime.strftime(Settings.L_DAY_OF_WEEK, "%Y-%m-%dT%H:%M:%SZ")
+    # Determine the first and last day of the selected week.
+    viewing_date: datetime = BrowserCookie.get_viewingdate_cookie()
+    f_day: datetime = viewing_date - timedelta(days=viewing_date.weekday())
+    l_day: datetime = f_day + timedelta(days=4)
+
+    # Make a string out of the dates, to compare them to the JSON more easily.
+    f_day_str: str = datetime.strftime(f_day, "%Y-%m-%dT%H:%M:%SZ")
+    l_day_str: str = datetime.strftime(l_day, "%Y-%m-%dT%H:%M:%SZ")
 
     for record in schedule:
 
@@ -31,10 +38,10 @@ def convert_dates(schedule: list) -> list:
         starttijd = float(str(record["starttijd"])[0:10])
         eindtijd = float(str(record["eindtijd"])[0:10])
 
-        record["starttijd"] = datetime.datetime.utcfromtimestamp(starttijd)
-        record["eindtijd"] = datetime.datetime.utcfromtimestamp(eindtijd)
+        record["starttijd"] = datetime.utcfromtimestamp(starttijd)
+        record["eindtijd"] = datetime.utcfromtimestamp(eindtijd)
 
-        record["roosterdatum_datetime"] = datetime.datetime.strptime(record["roosterdatum"], "%Y-%m-%dT%H:%M:%SZ")
+        record["roosterdatum_datetime"] = datetime.strptime(record["roosterdatum"], "%Y-%m-%dT%H:%M:%SZ")
 
     return schedule
 

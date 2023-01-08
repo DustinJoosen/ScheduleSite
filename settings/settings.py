@@ -7,12 +7,7 @@ from schedule.cookiegeneration import CookieGenerator
 
 class Settings:
     TODAY: datetime = None
-
-    # TODO: calculate these during the schedule processing. (processing.py -> filter_schedule)
-    F_DAY_OF_WEEK: datetime = None
-    L_DAY_OF_WEEK: datetime = None
-
-    LOADED = False
+    LOADED: bool = False
 
     @classmethod
     def load(cls):
@@ -44,8 +39,4 @@ class Settings:
         BrowserCookie.set_viewingdate_cookie(viewing_date)
 
         cls.TODAY = viewing_date
-
-        cls.F_DAY_OF_WEEK: datetime = viewing_date - timedelta(days=viewing_date.weekday())
-        cls.L_DAY_OF_WEEK: datetime = cls.F_DAY_OF_WEEK + timedelta(days=4)
-
         cls.LOADED = True
