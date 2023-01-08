@@ -14,8 +14,15 @@ class BrowserCookie:
 
     @classmethod
     def get_encrypted_cookies(cls) -> dict:
-        # TODO: make this actually get from the cookies.
         return cls.MOCK_COOKIE
+
+    @classmethod
+    def get_auth_cookie(cls) -> str | None:
+        return cls.MOCK_COOKIE["authcookie"]
+
+    @classmethod
+    def get_credentials_cookie(cls) -> list | None:
+        return cls.MOCK_COOKIE["credentials"]
 
     @classmethod
     def set_auth_cookie(cls, cookie: str):
@@ -30,4 +37,4 @@ class BrowserCookie:
 
     @classmethod
     def clear_auth_cookie(cls):
-        cls.MOCK_COOKIE["authcookie"] = ""
+        cls.set_auth_cookie(None)

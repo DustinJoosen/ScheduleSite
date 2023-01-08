@@ -65,11 +65,3 @@ def substitution_decryption(cipher_text: str) -> str:
         plain_text += chr(decrypted_ascii)
 
     return plain_text
-
-
-def transposition_encryption(value: str) -> str:
-    return value
-
-
-def transposition_decryption(value: str) -> str:
-    return value

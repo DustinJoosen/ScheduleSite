@@ -44,8 +44,6 @@ def schedule() -> Response | str:
     print(BrowserCookie.get_mock_cookie())
     print(schedule)
 
-    #TODO: load the schedule as json inside the javascript. THis can then be used to display the correct info on the schedule details.
-
     return render_template(
         "schedule.html",
         schedule=schedule,
@@ -66,8 +64,10 @@ def authenticate() -> Response | str:
         # The auth cookie is cleared so the new cookie will be used.
         BrowserCookie.set_credentials_cookie(encrypted_email, encrypted_passw)
         BrowserCookie.clear_auth_cookie()
+
         Settings.load()
 
+        print("settings loaded in")
         return redirect('/')
     return render_template("authenticate.html")
 
