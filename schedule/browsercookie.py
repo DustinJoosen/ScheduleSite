@@ -1,19 +1,17 @@
 from flask import request
+from datetime import datetime
 
 
 class BrowserCookie:
 
     MOCK_COOKIE: dict = {
+        "authcookie": None,
         "credentials": None,
-        "authcookie": None
+        "viewingdate": None
     }
 
     @classmethod
     def get_mock_cookie(cls) -> dict:
-        return cls.MOCK_COOKIE
-
-    @classmethod
-    def get_encrypted_cookies(cls) -> dict:
         return cls.MOCK_COOKIE
 
     @classmethod
@@ -25,6 +23,10 @@ class BrowserCookie:
         return cls.MOCK_COOKIE["credentials"]
 
     @classmethod
+    def get_viewingdate_cookie(cls) -> datetime | None:
+        return cls.MOCK_COOKIE["viewingdate"]
+
+    @classmethod
     def set_auth_cookie(cls, cookie: str):
         cls.MOCK_COOKIE["authcookie"] = cookie
 
@@ -34,6 +36,10 @@ class BrowserCookie:
             "email": email,
             "password": pwd
         }
+
+    @classmethod
+    def set_viewingdate_cookie(cls, viewingdate: datetime):
+        cls.MOCK_COOKIE["viewingdate"] = viewingdate
 
     @classmethod
     def clear_auth_cookie(cls):

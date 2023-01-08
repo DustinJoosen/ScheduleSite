@@ -7,7 +7,8 @@ from schedule.cookiegeneration import CookieGenerator
 
 class Settings:
     TODAY: datetime = None
-    VIEWING_DATE: datetime = None
+
+    # TODO: calculate these during the schedule processing. (processing.py -> filter_schedule)
     F_DAY_OF_WEEK: datetime = None
     L_DAY_OF_WEEK: datetime = None
 
@@ -38,12 +39,13 @@ class Settings:
             encrypted_cookie: str = substitution_encryption(cg.cookie)
             BrowserCookie.set_auth_cookie(encrypted_cookie)
 
-        # This is because the api gives the roosterdatum like this.
-        # TODO: make this also a part of browsercookies.py. except today.
-        cls.VIEWING_DATE = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        cls.TODAY = cls.VIEWING_DATE
+        # The API gives the time at 0. So i make comparisons easier like this.
+        viewing_date: datetime = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
+        BrowserCookie.set_viewingdate_cookie(viewing_date)
 
-        cls.F_DAY_OF_WEEK: datetime = cls.VIEWING_DATE - timedelta(days=cls.VIEWING_DATE.weekday())
+        cls.TODAY = viewing_date
+
+        cls.F_DAY_OF_WEEK: datetime = viewing_date - timedelta(days=viewing_date.weekday())
         cls.L_DAY_OF_WEEK: datetime = cls.F_DAY_OF_WEEK + timedelta(days=4)
 
         cls.LOADED = True

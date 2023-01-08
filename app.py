@@ -86,9 +86,9 @@ def set_week() -> Response:
     if inc == 0:
         date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        date = Settings.VIEWING_DATE + timedelta(weeks=inc)
+        date = BrowserCookie.get_viewingdate_cookie() + timedelta(weeks=inc)
 
-    Settings.VIEWING_DATE = date
+    BrowserCookie.set_viewingdate_cookie(date)
 
     Settings.F_DAY_OF_WEEK = date - timedelta(days=date.weekday())
     Settings.L_DAY_OF_WEEK = Settings.F_DAY_OF_WEEK + timedelta(days=4)
