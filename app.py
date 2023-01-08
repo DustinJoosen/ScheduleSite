@@ -44,8 +44,6 @@ def schedule() -> Response | str:
     print(BrowserCookie.get_mock_cookie())
     print(schedule)
 
-    #TODO: load the schedule as json inside the javascript. THis can then be used to display the correct info on the schedule details.
-
     return render_template(
         "schedule.html",
         schedule=schedule,
@@ -66,8 +64,10 @@ def authenticate() -> Response | str:
         # The auth cookie is cleared so the new cookie will be used.
         BrowserCookie.set_credentials_cookie(encrypted_email, encrypted_passw)
         BrowserCookie.clear_auth_cookie()
+
         Settings.load()
 
+        print("settings loaded in")
         return redirect('/')
     return render_template("authenticate.html")
 
@@ -86,12 +86,9 @@ def set_week() -> Response:
     if inc == 0:
         date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        date = Settings.VIEWING_DATE + timedelta(weeks=inc)
+        date = BrowserCookie.get_viewingdate_cookie() + timedelta(weeks=inc)
 
-    Settings.VIEWING_DATE = date
-
-    Settings.F_DAY_OF_WEEK = date - timedelta(days=date.weekday())
-    Settings.L_DAY_OF_WEEK = Settings.F_DAY_OF_WEEK + timedelta(days=4)
+    BrowserCookie.set_viewingdate_cookie(date)
 
     return redirect('/')
 

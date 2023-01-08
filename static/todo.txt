@@ -1,5 +1,4 @@
 TODO:
 
     1)  Save encrypted credentials and authcookie in the browser cookies.
-    2)  Make static things objects .			<- browser cookies again.
-    3)  Responsive hell.
+    2)  Responsive hell.

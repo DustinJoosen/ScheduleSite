@@ -2,6 +2,7 @@ import requests
 import json
 from settings.settings import Settings
 from schedule.browsercookie import BrowserCookie
+from schedule.cookieencryption import substitution_decryption
 
 
 class Client:
@@ -9,11 +10,12 @@ class Client:
     def __init__(self):
         self.base_url: str = "https://windesheimapi.azurewebsites.net"
 
-    def request_schedule(self, windesheimid: str) -> list | None:
-        headers: dict = {
-            'content-type': 'application/json',
-            'cookie': '.AspNet.Cookies=' + Settings.COOKIE if Settings.COOKIE is not None else ""
-        }
+    def request_schedule(self) -> list | None:
+        headers: dict = self.__get_headers()
+
+        windesheimid: str = self.request_windesheimid()
+        if windesheimid is None:
+            return None
 
         # Somethimes the forbidden_note string is in the cookie. if this happens, stop.
         forbidden_note: str = "…"
@@ -35,14 +37,28 @@ class Client:
         return None
 
     def request_windesheimid(self) -> str | None:
-        headers: dict = {
-            'content-type': 'application/json',
-            'cookie': '.AspNet.Cookies=' + Settings.COOKIE if Settings.COOKIE is not None else ""
-        }
+        headers: dict = self.__get_headers()
 
         response: Response = requests.get(f"{self.base_url}/api/v1/Authorize/Roles", headers=headers)
         if response.status_code == 200:
-            data: dict = json.loads(response.content)
-            return data['data']['windesheimId']
+            try:
+                data: dict = json.loads(response.content)
+                return data['data']['windesheimId']
+            except ValueError:
+                print("Could not convert response to JSON. The most likely cause is an invalid cookie.")
+                BrowserCookie.clear_auth_cookie()
 
-        raise Exception("Could not resolve windesheimId")
+        return None
+
+    @staticmethod
+    def __get_headers() -> dict:
+        encrypted_auth_cookie: str = BrowserCookie.get_auth_cookie()
+        if encrypted_auth_cookie is None:
+            auth_cookie = ""
+        else:
+            auth_cookie: str = substitution_decryption(encrypted_auth_cookie)
+
+        return {
+            'content-type': 'application/json',
+            'cookie': '.AspNet.Cookies=' + auth_cookie
+        }
