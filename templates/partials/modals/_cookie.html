@@ -1,0 +1,30 @@
+<div class="modal fade" id="cookieModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Cookies</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    This site uses cookies to save user information.<br/>
+                    If you proceed, The following data will be saved in your cookies:
+                </p>
+                <ul>
+                    <li>The week that is currently being viewed.</li>
+                    <li>The <b>encrypted</b> api key for the official windesheim api</li>
+                    <li>The <b>encrypted</b> credentials to retrieve the api key</li>
+                </ul>
+                <p>
+                    These cookies will be saved for one (1) year.
+                    If you do not want this, Feel free to leave this site.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="set_cookies_allowed(true)" data-dismiss="modal" class="btn btn-success">Understood. Don't show again.</button>
+            </div>
+        </div>
+    </div>
+</div>
