@@ -20,6 +20,7 @@ cache.init_app(app)
 
 if not Mongo.CONNECTED:
     Mongo.connect()
+    MongoQueue.init()
 
 
 @app.route('/', methods=['GET'])
@@ -30,7 +31,7 @@ def schedule() -> Response | str:
         print("popped a uuid out of the queue: " + mongo_browser_guid)
 
         response: Response = make_response(redirect("/"))
-        response.set_cookie("mongo_browser_guid", mongo_browser_guid)
+        response.set_cookie("mongo_browser_guid", mongo_browser_guid, expires=datetime.now() + timedelta(days=30))
 
         return response
 
@@ -69,6 +70,9 @@ def schedule() -> Response | str:
 
 @app.route('/authenticate', methods=['GET', 'POST'])
 def authenticate() -> Response | str:
+    if request.cookies.get("mongo_browser_guid") is None:
+        return redirect("/")
+
     if request.method == "POST":
         email: str = request.form["email"]
         passw: str = request.form["password"]

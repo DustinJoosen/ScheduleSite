@@ -29,6 +29,10 @@ class Settings:
             cg.init_acynchronous_method(cg.set_aspnet_cookie)
 
             # Encrypt the new cookie and set it to the browser cookies.
+            if cg.cookie is None:
+                print("generated cookie is None.")
+                return
+
             encrypted_cookie: str = substitution_encryption(cg.cookie)
             Mongo.set_auth_document(encrypted_cookie)
 

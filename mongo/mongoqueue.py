@@ -19,5 +19,5 @@ class MongoQueue:
 
     @classmethod
     def generate_new_guid(cls):
-        guid: str = mongo.insert_browser_guid_document()
+        guid: str = Mongo.insert_browser_guid_document()
         cls.__QUEUE.append(guid)
