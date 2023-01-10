@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response
 from flask_caching import Cache
 from werkzeug import Response
 from datetime import datetime, timedelta
@@ -16,9 +16,22 @@ cache: Cache = Cache(app, config={
 })
 cache.init_app(app)
 
+Mongo.connect()
+Mongo.init()
+
 
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:
+    # You need a browser_guid to do anything. Make sure you have one.
+    if request.cookies.get("mongo_browser_guid") is None:
+        mongo_browser_guid: str = Mongo.QUEUE_UUID.pop()
+        print("popped a uuid out of the queue: " + mongo_browser_guid)
+
+        response: Response = make_response(redirect("/"))
+        response.set_cookie("mongo_browser_guid", mongo_browser_guid)
+
+        return response
+
     # Make sure the settings are already loaded.
     if not Settings.LOADED:
         try:

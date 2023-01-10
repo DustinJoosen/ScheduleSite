@@ -2,9 +2,12 @@ import pymongo.database
 from flask import request
 from datetime import datetime
 from pymongo import MongoClient
+import uuid
 
 
 class Mongo:
+
+    QUEUE_UUID: list = []
 
     CONNECTED: bool = False
 
@@ -21,6 +24,13 @@ class Mongo:
         print("connected.")
 
     @classmethod
+    def init(cls):
+        for _ in range(3):
+            _uuid: str = str(uuid.uuid1())
+            cls.QUEUE_UUID.append(_uuid)
+            cls.insert_browser_guid_document(_uuid)
+
+    @classmethod
     def get_browser_guid(cls):
         if (mongo_browser_guid := request.cookies.get("mongo_browser_guid")) is not None:
             return mongo_browser_guid
@@ -30,10 +40,7 @@ class Mongo:
 
             cls.insert_browser_guid_document(generated_uuid)
 
-            # handy number: gold path scenario, this method is called twice.
-
-            #place uuid inside some cookie queue around here.
-            return "7d516d57-846e-4d8f-a311-15f3866fbc83" # later return uuid, when queue works and cookie is added.
+            return "8043655c-90ee-11ed-948a-802bf986293a" # later return uuid, when queue works and cookie is added.
 
     @classmethod
     def insert_browser_guid_document(cls, browser_guid: str):
