@@ -1,8 +1,7 @@
 import requests
 import json
-from settings.settings import Settings
-from schedule.browsercookie import BrowserCookie
-from schedule.cookieencryption import substitution_decryption
+from mongo.mongo import Mongo
+from cookies.cookieencryption import substitution_decryption
 
 
 class Client:
@@ -30,7 +29,7 @@ class Client:
                 return content
             except ValueError:
                 print("Could not convert response to JSON. The most likely cause is an invalid cookie.")
-                BrowserCookie.clear_auth_cookie()
+                Mongo.clear_auth_document()
                 return None
 
         print(f"Response code {response.status_code}.")
@@ -46,13 +45,13 @@ class Client:
                 return data['data']['windesheimId']
             except ValueError:
                 print("Could not convert response to JSON. The most likely cause is an invalid cookie.")
-                BrowserCookie.clear_auth_cookie()
+                Mongo.clear_auth_document()
 
         return None
 
     @staticmethod
     def __get_headers() -> dict:
-        encrypted_auth_cookie: str = BrowserCookie.get_auth_cookie()
+        encrypted_auth_cookie: str = Mongo.get_auth_document()
         if encrypted_auth_cookie is None:
             auth_cookie = ""
         else:

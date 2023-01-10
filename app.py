@@ -1,11 +1,12 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, make_response
 from flask_caching import Cache
 from werkzeug import Response
 from datetime import datetime, timedelta
-from settings.settings import Settings
+from cookies.settings import Settings
 from schedule.schedule import get_schedule
-from schedule.cookieencryption import substitution_encryption
-from schedule.browsercookie import BrowserCookie
+from cookies.cookieencryption import substitution_encryption
+from mongo.mongo import Mongo
+from mongo.mongoqueue import MongoQueue
 from json import dumps
 
 app: Flask = Flask(__name__)
@@ -17,8 +18,23 @@ cache: Cache = Cache(app, config={
 cache.init_app(app)
 
 
+if not Mongo.CONNECTED:
+    Mongo.connect()
+    MongoQueue.init()
+
+
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:
+    # You need a browser_guid to do anything. Make sure you have one.
+    if request.cookies.get("mongo_browser_guid") is None:
+        mongo_browser_guid: str = MongoQueue.pop()
+        print("popped a uuid out of the queue: " + mongo_browser_guid)
+
+        response: Response = make_response(redirect("/"))
+        response.set_cookie("mongo_browser_guid", mongo_browser_guid, expires=datetime.now() + timedelta(days=30))
+
+        return response
+
     # Make sure the settings are already loaded.
     if not Settings.LOADED:
         try:
@@ -41,7 +57,7 @@ def schedule() -> Response | str:
     if schedule is None:
         return redirect('/error')
 
-    print(BrowserCookie.get_mock_cookie())
+    print(Mongo.get_mock_document())
     print(schedule)
 
     return render_template(
@@ -54,6 +70,9 @@ def schedule() -> Response | str:
 
 @app.route('/authenticate', methods=['GET', 'POST'])
 def authenticate() -> Response | str:
+    if request.cookies.get("mongo_browser_guid") is None:
+        return redirect("/")
+
     if request.method == "POST":
         email: str = request.form["email"]
         passw: str = request.form["password"]
@@ -62,8 +81,8 @@ def authenticate() -> Response | str:
         encrypted_passw: str = substitution_encryption(passw)
 
         # The auth cookie is cleared so the new cookie will be used.
-        BrowserCookie.set_credentials_cookie(encrypted_email, encrypted_passw)
-        BrowserCookie.clear_auth_cookie()
+        Mongo.set_credentials_document(encrypted_email, encrypted_passw)
+        Mongo.clear_auth_document()
 
         Settings.load()
 
@@ -86,9 +105,9 @@ def set_week() -> Response:
     if inc == 0:
         date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        date = BrowserCookie.get_viewingdate_cookie() + timedelta(weeks=inc)
+        date = Mongo.get_viewingdate_document() + timedelta(weeks=inc)
 
-    BrowserCookie.set_viewingdate_cookie(date)
+    Mongo.set_viewingdate_document(date)
 
     return redirect('/')
 

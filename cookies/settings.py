@@ -1,8 +1,7 @@
-import json
-from datetime import datetime, timedelta
-from schedule.browsercookie import BrowserCookie
-from schedule.cookieencryption import substitution_decryption, substitution_encryption
-from schedule.cookiegeneration import CookieGenerator
+from datetime import datetime
+from mongo.mongo import Mongo
+from cookies.cookieencryption import substitution_decryption, substitution_encryption
+from cookies.cookiegeneration import CookieGenerator
 
 
 class Settings:
@@ -11,14 +10,13 @@ class Settings:
 
     @classmethod
     def load(cls):
-
         # Set the cookies.
-        encrypted_auth_cookie: str = BrowserCookie.get_auth_cookie()
+        encrypted_auth_cookie: str = Mongo.get_auth_document()
 
         # If the auth cookie is not yet set.
         if encrypted_auth_cookie is None:
             # Check if credentials are set.
-            encrypted_credentials = BrowserCookie.get_credentials_cookie()
+            encrypted_credentials = Mongo.get_credentials_document()
             if encrypted_credentials is None:
                 raise Exception("no credentials supplied")
 
@@ -31,12 +29,16 @@ class Settings:
             cg.init_acynchronous_method(cg.set_aspnet_cookie)
 
             # Encrypt the new cookie and set it to the browser cookies.
+            if cg.cookie is None:
+                print("generated cookie is None.")
+                return
+
             encrypted_cookie: str = substitution_encryption(cg.cookie)
-            BrowserCookie.set_auth_cookie(encrypted_cookie)
+            Mongo.set_auth_document(encrypted_cookie)
 
         # The API gives the time at 0. So i make comparisons easier like this.
         viewing_date: datetime = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        BrowserCookie.set_viewingdate_cookie(viewing_date)
+        Mongo.set_viewingdate_document(viewing_date)
 
         cls.TODAY = viewing_date
         cls.LOADED = True

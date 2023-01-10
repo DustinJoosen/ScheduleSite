@@ -1,4 +1,4 @@
 TODO:
 
-    1)  Save encrypted credentials and authcookie in the browser cookies.
+    1)  Save encrypted credentials and authcookie in the browser cookies. <- this branch.
     2)  Responsive hell.
