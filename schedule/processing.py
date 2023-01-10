@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from settings.settings import Settings
-from schedule.browsercookie import BrowserCookie
+from schedule.mongo import Mongo
 
 
 # Filter unneccesairy records out of the schedule
@@ -8,7 +8,7 @@ def filter_schedule(schedule: list, show_zelfstudie: bool) -> list:
     filtered: list = []
 
     # Determine the first and last day of the selected week.
-    viewing_date: datetime = BrowserCookie.get_viewingdate_cookie()
+    viewing_date: datetime = Mongo.get_viewingdate_cookie()
     f_day: datetime = viewing_date - timedelta(days=viewing_date.weekday())
     l_day: datetime = f_day + timedelta(days=4)
 

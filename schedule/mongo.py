@@ -4,9 +4,7 @@ from datetime import datetime
 from pymongo import MongoClient
 
 
-class BrowserCookie:
-
-    # PLAN: kijken of pypupeteer dit aankan.
+class Mongo:
 
     MOCK_COOKIE: dict = {
         "authcookie": None,
@@ -105,9 +103,9 @@ class BrowserCookie:
         cls.set_auth_cookie(None, browser_guid)
 
 
-BrowserCookie.connect()
+Mongo.connect()
 
 BROWSER_GUID: str = "7d516d57-846e-4d8f-a311-15f3866fbc82"
-print(BrowserCookie.get_document_by_browser_guid(BROWSER_GUID))
-print(BrowserCookie.clear_auth_cookie(BROWSER_GUID))
-print(BrowserCookie.get_document_by_browser_guid(BROWSER_GUID))
+print(Mongo.get_document_by_browser_guid(BROWSER_GUID))
+print(Mongo.clear_auth_cookie(BROWSER_GUID))
+print(Mongo.get_document_by_browser_guid(BROWSER_GUID))

@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from settings.settings import Settings
 from schedule.schedule import get_schedule
 from schedule.cookieencryption import substitution_encryption
-from schedule.browsercookie import BrowserCookie
+from schedule.mongo import Mongo
 from json import dumps
 
 app: Flask = Flask(__name__)
@@ -41,7 +41,7 @@ def schedule() -> Response | str:
     if schedule is None:
         return redirect('/error')
 
-    print(BrowserCookie.get_mock_cookie())
+    print(Mongo.get_mock_cookie())
     print(schedule)
 
     return render_template(
@@ -62,8 +62,8 @@ def authenticate() -> Response | str:
         encrypted_passw: str = substitution_encryption(passw)
 
         # The auth cookie is cleared so the new cookie will be used.
-        BrowserCookie.set_credentials_cookie(encrypted_email, encrypted_passw)
-        BrowserCookie.clear_auth_cookie()
+        Mongo.set_credentials_cookie(encrypted_email, encrypted_passw)
+        Mongo.clear_auth_cookie()
 
         Settings.load()
 
@@ -86,9 +86,9 @@ def set_week() -> Response:
     if inc == 0:
         date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        date = BrowserCookie.get_viewingdate_cookie() + timedelta(weeks=inc)
+        date = Mongo.get_viewingdate_cookie() + timedelta(weeks=inc)
 
-    BrowserCookie.set_viewingdate_cookie(date)
+    Mongo.set_viewingdate_cookie(date)
 
     return redirect('/')
 
