@@ -26,7 +26,30 @@ class Mongo:
             return mongo_browser_guid
         else:
             print("mongo_browser_guid cookie is None. a new guid is generated.")
-            return "7d516d57-846e-4d8f-a311-15f3866fbc83"
+            generated_uuid: str = str(uuid.uuid1())
+
+            cls.insert_browser_guid_document(generated_uuid)
+
+            # handy number: gold path scenario, this method is called twice.
+
+            #place uuid inside some cookie queue around here.
+            return "7d516d57-846e-4d8f-a311-15f3866fbc83" # later return uuid, when queue works and cookie is added.
+
+    @classmethod
+    def insert_browser_guid_document(cls, browser_guid: str):
+        if not cls.CONNECTED:
+            print("not connected.")
+            return None
+
+        cls.DB.user_info.insert_one({
+            "browser_guid": browser_guid,
+            "credentials": {
+                "email": None,
+                "password": None
+            },
+            "auth_cookie": None,
+            "viewingdate": None
+        })
 
     @classmethod
     def get_document_by_browser_guid(cls, browser_guid: str) -> dict | None:
