@@ -8,7 +8,7 @@ def filter_schedule(schedule: list, show_zelfstudie: bool) -> list:
     filtered: list = []
 
     # Determine the first and last day of the selected week.
-    viewing_date: datetime = Mongo.get_viewingdate_cookie()
+    viewing_date: datetime = Mongo.get_viewingdate_document()
     f_day: datetime = viewing_date - timedelta(days=viewing_date.weekday())
     l_day: datetime = f_day + timedelta(days=4)
 

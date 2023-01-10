@@ -41,7 +41,7 @@ def schedule() -> Response | str:
     if schedule is None:
         return redirect('/error')
 
-    print(Mongo.get_mock_cookie())
+    print(Mongo.get_mock_document())
     print(schedule)
 
     return render_template(
@@ -62,8 +62,8 @@ def authenticate() -> Response | str:
         encrypted_passw: str = substitution_encryption(passw)
 
         # The auth cookie is cleared so the new cookie will be used.
-        Mongo.set_credentials_cookie(encrypted_email, encrypted_passw)
-        Mongo.clear_auth_cookie()
+        Mongo.set_credentials_document(encrypted_email, encrypted_passw)
+        Mongo.clear_auth_document()
 
         Settings.load()
 
@@ -86,9 +86,9 @@ def set_week() -> Response:
     if inc == 0:
         date = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
     else:
-        date = Mongo.get_viewingdate_cookie() + timedelta(weeks=inc)
+        date = Mongo.get_viewingdate_document() + timedelta(weeks=inc)
 
-    Mongo.set_viewingdate_cookie(date)
+    Mongo.set_viewingdate_document(date)
 
     return redirect('/')
 

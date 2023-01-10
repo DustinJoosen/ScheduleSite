@@ -16,12 +16,12 @@ class Settings:
             Mongo.connect()
 
         # Set the cookies.
-        encrypted_auth_cookie: str = Mongo.get_auth_cookie()
+        encrypted_auth_cookie: str = Mongo.get_auth_document()
 
         # If the auth cookie is not yet set.
         if encrypted_auth_cookie is None:
             # Check if credentials are set.
-            encrypted_credentials = Mongo.get_credentials_cookie()
+            encrypted_credentials = Mongo.get_credentials_document()
             if encrypted_credentials is None:
                 raise Exception("no credentials supplied")
 
@@ -35,11 +35,11 @@ class Settings:
 
             # Encrypt the new cookie and set it to the browser cookies.
             encrypted_cookie: str = substitution_encryption(cg.cookie)
-            Mongo.set_auth_cookie(encrypted_cookie)
+            Mongo.set_auth_document(encrypted_cookie)
 
         # The API gives the time at 0. So i make comparisons easier like this.
         viewing_date: datetime = datetime.today().replace(hour=0, minute=0, second=0, microsecond=0)
-        Mongo.set_viewingdate_cookie(viewing_date)
+        Mongo.set_viewingdate_document(viewing_date)
 
         cls.TODAY = viewing_date
         cls.LOADED = True

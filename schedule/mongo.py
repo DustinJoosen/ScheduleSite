@@ -37,12 +37,12 @@ class Mongo:
         return cls.DB.user_info.find_one({"browser_guid": browser_guid})
 
     @classmethod
-    def get_mock_cookie(cls) -> dict:
+    def get_mock_document(cls) -> dict:
         browser_guid: str = cls.get_browser_guid()
         return cls.get_document_by_browser_guid(browser_guid)
 
     @classmethod
-    def get_auth_cookie(cls) -> str | None:
+    def get_auth_document(cls) -> str | None:
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
@@ -51,7 +51,7 @@ class Mongo:
             return None
 
     @classmethod
-    def get_credentials_cookie(cls) -> list | None:
+    def get_credentials_document(cls) -> list | None:
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
@@ -60,7 +60,7 @@ class Mongo:
             return None
 
     @classmethod
-    def get_viewingdate_cookie(cls) -> datetime | None:
+    def get_viewingdate_document(cls) -> datetime | None:
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
@@ -69,7 +69,7 @@ class Mongo:
             return None
 
     @classmethod
-    def set_auth_cookie(cls, auth_cookie: str):
+    def set_auth_document(cls, auth_cookie: str):
         if not cls.CONNECTED:
             print("not connected.")
             return None
@@ -82,7 +82,7 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def set_credentials_cookie(cls, email: str, pwd: str):
+    def set_credentials_document(cls, email: str, pwd: str):
         if not cls.CONNECTED:
             print("not connected.")
             return None
@@ -98,7 +98,7 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def set_viewingdate_cookie(cls, viewingdate: datetime):
+    def set_viewingdate_document(cls, viewingdate: datetime):
         if not cls.CONNECTED:
             print("not connected.")
             return None
@@ -111,5 +111,5 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def clear_auth_cookie(cls):
-        cls.set_auth_cookie(None)
+    def clear_auth_document(cls):
+        cls.set_auth_document(None)
