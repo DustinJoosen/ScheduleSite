@@ -2,10 +2,11 @@ from flask import Flask, render_template, redirect, request, make_response
 from flask_caching import Cache
 from werkzeug import Response
 from datetime import datetime, timedelta
-from settings.settings import Settings
+from cookies.settings import Settings
 from schedule.schedule import get_schedule
-from schedule.cookieencryption import substitution_encryption
-from schedule.mongo import Mongo
+from cookies.cookieencryption import substitution_encryption
+from mongo.mongo import Mongo
+from mongo.mongoqueue import MongoQueue
 from json import dumps
 
 app: Flask = Flask(__name__)
@@ -16,15 +17,16 @@ cache: Cache = Cache(app, config={
 })
 cache.init_app(app)
 
-Mongo.connect()
-Mongo.init()
+
+if not Mongo.CONNECTED:
+    Mongo.connect()
 
 
 @app.route('/', methods=['GET'])
 def schedule() -> Response | str:
     # You need a browser_guid to do anything. Make sure you have one.
     if request.cookies.get("mongo_browser_guid") is None:
-        mongo_browser_guid: str = Mongo.QUEUE_UUID.pop()
+        mongo_browser_guid: str = MongoQueue.pop()
         print("popped a uuid out of the queue: " + mongo_browser_guid)
 
         response: Response = make_response(redirect("/"))

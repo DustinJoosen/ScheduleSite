@@ -1,8 +1,7 @@
 import requests
 import json
-from settings.settings import Settings
-from schedule.mongo import Mongo
-from schedule.cookieencryption import substitution_decryption
+from mongo.mongo import Mongo
+from cookies.cookieencryption import substitution_decryption
 
 
 class Client:

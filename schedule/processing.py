@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
-from settings.settings import Settings
-from schedule.mongo import Mongo
+from mongo.mongo import Mongo
 
 
 # Filter unneccesairy records out of the schedule

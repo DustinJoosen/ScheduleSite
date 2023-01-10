@@ -16,37 +16,27 @@ class Mongo:
 
     @classmethod
     def connect(cls):
-        mongo_conn_string: str = "mongodb+srv://admin:<password>@cluster0.v5wbx7n.mongodb.net/?retryWrites=true&w=majority"
+        print("connecting to mongodb.")
+        mongo_conn_string: str = "mongodb+srv://admin:<password>>@cluster0.v5wbx7n.mongodb.net/?retryWrites=true&w=majority"
         cls.MONGO_CONN = MongoClient(mongo_conn_string)
         cls.DB = cls.MONGO_CONN.schedule_site
 
         cls.CONNECTED = True
-        print("connected.")
-
-    @classmethod
-    def init(cls):
-        for _ in range(3):
-            _uuid: str = str(uuid.uuid1())
-            cls.QUEUE_UUID.append(_uuid)
-            cls.insert_browser_guid_document(_uuid)
+        print("mongodb connection established.")
 
     @classmethod
     def get_browser_guid(cls):
         if (mongo_browser_guid := request.cookies.get("mongo_browser_guid")) is not None:
             return mongo_browser_guid
-        else:
-            print("mongo_browser_guid cookie is None. a new guid is generated.")
-            generated_uuid: str = str(uuid.uuid1())
-
-            cls.insert_browser_guid_document(generated_uuid)
-
-            return "8043655c-90ee-11ed-948a-802bf986293a" # later return uuid, when queue works and cookie is added.
+        return None
 
     @classmethod
-    def insert_browser_guid_document(cls, browser_guid: str):
+    def insert_browser_guid_document(cls):
         if not cls.CONNECTED:
             print("not connected.")
             return None
+
+        browser_guid: str = str(uuid.uuid1())
 
         cls.DB.user_info.insert_one({
             "browser_guid": browser_guid,
@@ -57,6 +47,8 @@ class Mongo:
             "auth_cookie": None,
             "viewingdate": None
         })
+
+        return browser_guid
 
     @classmethod
     def get_document_by_browser_guid(cls, browser_guid: str) -> dict | None:

@@ -1,8 +1,7 @@
-import json
-from datetime import datetime, timedelta
-from schedule.mongo import Mongo
-from schedule.cookieencryption import substitution_decryption, substitution_encryption
-from schedule.cookiegeneration import CookieGenerator
+from datetime import datetime
+from mongo.mongo import Mongo
+from cookies.cookieencryption import substitution_decryption, substitution_encryption
+from cookies.cookiegeneration import CookieGenerator
 
 
 class Settings:
@@ -11,10 +10,6 @@ class Settings:
 
     @classmethod
     def load(cls):
-        # Load mongo
-        if not Mongo.CONNECTED:
-            Mongo.connect()
-
         # Set the cookies.
         encrypted_auth_cookie: str = Mongo.get_auth_document()
 
