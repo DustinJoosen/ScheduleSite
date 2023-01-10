@@ -11,7 +11,9 @@ class Settings:
 
     @classmethod
     def load(cls):
-        Mongo.connect()
+        # Load mongo
+        if not Mongo.CONNECTED:
+            Mongo.connect()
 
         # Set the cookies.
         encrypted_auth_cookie: str = Mongo.get_auth_cookie()

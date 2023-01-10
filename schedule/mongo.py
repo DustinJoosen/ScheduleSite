@@ -6,12 +6,6 @@ from pymongo import MongoClient
 
 class Mongo:
 
-    MOCK_COOKIE: dict = {
-        "authcookie": None,
-        "credentials": None,
-        "viewingdate": None
-    }
-
     CONNECTED: bool = False
 
     MONGO_CONN: MongoClient = None
@@ -27,6 +21,14 @@ class Mongo:
         print("connected.")
 
     @classmethod
+    def get_browser_guid(cls):
+        if (mongo_browser_guid := request.cookies.get("mongo_browser_guid")) is not None:
+            return mongo_browser_guid
+        else:
+            print("mongo_browser_guid cookie is None. a new guid is generated.")
+            return "7d516d57-846e-4d8f-a311-15f3866fbc83"
+
+    @classmethod
     def get_document_by_browser_guid(cls, browser_guid: str) -> dict | None:
         if not cls.CONNECTED:
             print("not connected.")
@@ -35,19 +37,22 @@ class Mongo:
         return cls.DB.user_info.find_one({"browser_guid": browser_guid})
 
     @classmethod
-    def get_mock_cookie(cls, browser_guid: str = None) -> dict:
+    def get_mock_cookie(cls) -> dict:
+        browser_guid: str = cls.get_browser_guid()
         return cls.get_document_by_browser_guid(browser_guid)
 
     @classmethod
-    def get_auth_cookie(cls, browser_guid: str = None) -> str | None:
+    def get_auth_cookie(cls) -> str | None:
+        browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
-            return document["authcookie"]
+            return document["auth_cookie"]
         except KeyError:
             return None
 
     @classmethod
-    def get_credentials_cookie(cls, browser_guid: str = None) -> list | None:
+    def get_credentials_cookie(cls) -> list | None:
+        browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
             return document["credentials"]
@@ -55,7 +60,8 @@ class Mongo:
             return None
 
     @classmethod
-    def get_viewingdate_cookie(cls, browser_guid: str = None) -> datetime | None:
+    def get_viewingdate_cookie(cls) -> datetime | None:
+        browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
             return document["viewingdate"]
@@ -63,10 +69,12 @@ class Mongo:
             return None
 
     @classmethod
-    def set_auth_cookie(cls, auth_cookie: str, browser_guid: str = None):
+    def set_auth_cookie(cls, auth_cookie: str):
         if not cls.CONNECTED:
             print("not connected.")
             return None
+
+        browser_guid: str = cls.get_browser_guid()
 
         cls.DB.user_info.update_one(
             {"browser_guid": browser_guid},
@@ -74,10 +82,12 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def set_credentials_cookie(cls, email: str, pwd: str, browser_guid: str = None):
+    def set_credentials_cookie(cls, email: str, pwd: str):
         if not cls.CONNECTED:
             print("not connected.")
             return None
+
+        browser_guid: str = cls.get_browser_guid()
 
         cls.DB.user_info.update_one(
             {"browser_guid": browser_guid},
@@ -88,10 +98,12 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def set_viewingdate_cookie(cls, viewingdate: datetime, browser_guid: str = None):
+    def set_viewingdate_cookie(cls, viewingdate: datetime):
         if not cls.CONNECTED:
             print("not connected.")
             return None
+
+        browser_guid: str = cls.get_browser_guid()
 
         cls.DB.user_info.update_one(
             {"browser_guid": browser_guid},
@@ -99,13 +111,5 @@ class Mongo:
             upsert=True)
 
     @classmethod
-    def clear_auth_cookie(cls, browser_guid: str = None):
-        cls.set_auth_cookie(None, browser_guid)
-
-
-Mongo.connect()
-
-BROWSER_GUID: str = "7d516d57-846e-4d8f-a311-15f3866fbc82"
-print(Mongo.get_document_by_browser_guid(BROWSER_GUID))
-print(Mongo.clear_auth_cookie(BROWSER_GUID))
-print(Mongo.get_document_by_browser_guid(BROWSER_GUID))
+    def clear_auth_cookie(cls):
+        cls.set_auth_cookie(None)
