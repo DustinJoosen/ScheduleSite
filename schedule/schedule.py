@@ -3,7 +3,7 @@ from schedule.processing import filter_schedule, convert_dates, set_type, group_
 from flask_caching import Cache, current_app
 
 
-def get_schedule(show_zelfstudie: bool = True, cache: Cache = None) -> dict:
+def get_schedule(show_zelfstudie: bool = True, cache: Cache = None):
     # Check if the raw schedule is already saved inside the cache. Might save a request, and a few seconds.
     with current_app.app_context():
         # If the cache has a raw_schedule, use that. If not, send a request and add it to the cache.

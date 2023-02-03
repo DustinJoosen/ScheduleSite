@@ -2,6 +2,7 @@ import pymongo.database
 from flask import request
 from datetime import datetime
 from pymongo import MongoClient
+from environment import get_environment_rule
 import uuid
 
 
@@ -17,7 +18,11 @@ class Mongo:
     @classmethod
     def connect(cls):
         print("connecting to mongodb.")
-        mongo_conn_string: str = "mongodb+srv://admin:<password>>@cluster0.v5wbx7n.mongodb.net/?retryWrites=true&w=majority"
+
+        user: str = "admin"
+        password: str = get_environment_rule("MONGO_PASS")
+
+        mongo_conn_string: str = f"mongodb+srv://{user}:{password}@cluster0.v5wbx7n.mongodb.net/?retryWrites=true&w=majority"
         cls.MONGO_CONN = MongoClient(mongo_conn_string)
         cls.DB = cls.MONGO_CONN.schedule_site
 
@@ -51,7 +56,7 @@ class Mongo:
         return browser_guid
 
     @classmethod
-    def get_document_by_browser_guid(cls, browser_guid: str) -> dict | None:
+    def get_document_by_browser_guid(cls, browser_guid: str):
         if not cls.CONNECTED:
             print("not connected.")
             return None
@@ -59,12 +64,12 @@ class Mongo:
         return cls.DB.user_info.find_one({"browser_guid": browser_guid})
 
     @classmethod
-    def get_mock_document(cls) -> dict:
+    def get_mock_document(cls):
         browser_guid: str = cls.get_browser_guid()
         return cls.get_document_by_browser_guid(browser_guid)
 
     @classmethod
-    def get_auth_document(cls) -> str | None:
+    def get_auth_document(cls):
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
@@ -73,7 +78,7 @@ class Mongo:
             return None
 
     @classmethod
-    def get_credentials_document(cls) -> list | None:
+    def get_credentials_document(cls):
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:
@@ -82,7 +87,7 @@ class Mongo:
             return None
 
     @classmethod
-    def get_viewingdate_document(cls) -> datetime | None:
+    def get_viewingdate_document(cls):
         browser_guid: str = cls.get_browser_guid()
         document = cls.get_document_by_browser_guid(browser_guid)
         try:

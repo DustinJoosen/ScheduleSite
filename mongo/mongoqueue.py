@@ -13,7 +13,7 @@ class MongoQueue:
             cls.generate_new_guid()
 
     @classmethod
-    def pop(cls) -> str:
+    def pop(cls):
         cls.generate_new_guid()
         return cls.__QUEUE.pop()
 

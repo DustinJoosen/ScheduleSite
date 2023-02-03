@@ -9,7 +9,7 @@ class Client:
     def __init__(self):
         self.base_url: str = "https://windesheimapi.azurewebsites.net"
 
-    def request_schedule(self) -> list | None:
+    def request_schedule(self):
         headers: dict = self.__get_headers()
 
         windesheimid: str = self.request_windesheimid()
@@ -35,7 +35,7 @@ class Client:
         print(f"Response code {response.status_code}.")
         return None
 
-    def request_windesheimid(self) -> str | None:
+    def request_windesheimid(self):
         headers: dict = self.__get_headers()
 
         response: Response = requests.get(f"{self.base_url}/api/v1/Authorize/Roles", headers=headers)
@@ -50,7 +50,7 @@ class Client:
         return None
 
     @staticmethod
-    def __get_headers() -> dict:
+    def __get_headers():
         encrypted_auth_cookie: str = Mongo.get_auth_document()
         if encrypted_auth_cookie is None:
             auth_cookie = ""

@@ -15,10 +15,11 @@ class CookieGenerator:
         starting_time: time = time.time()
 
         browser: Browser = await pyppeteer.launch(
-            # headless=False,
+            headless=False,
             handleSIGINT=False,
             handleSIGTERM=False,
-            handleSIGHUP=False
+            handleSIGHUP=False,
+            args=["--no-sandbox"]
         )
         page: Page = await browser.newPage()
 
@@ -69,5 +70,12 @@ class CookieGenerator:
             loop.create_task(action())
         ]
 
-        loop.run_until_complete(asyncio.wait(tasks))
-        loop.close()
+        try:
+            loop.run_until_complete(asyncio.wait(tasks))
+            loop.close()
+        except IOError as ex_1:
+            print("an exception has occured(io)")
+            print(ex_1)
+        except OSError as ex_2:
+            print("an exception has occured(os)")
+            print(ex_2)

@@ -1,9 +1,11 @@
+from environment import get_environment_rule
 
-KEY = "********"
+
+KEY = get_environment_rule("ENCRYPTION_KEY")
 OFFSET = 32
 
 
-def substitution_encryption(value: str) -> str:
+def substitution_encryption(value: str):
     # Make the key large enough to fit the whole plaintext.
     key: str = KEY
     while len(key) < len(value):
@@ -36,7 +38,7 @@ def substitution_encryption(value: str) -> str:
     return cipher_text
 
 
-def substitution_decryption(cipher_text: str) -> str:
+def substitution_decryption(cipher_text: str):
     # Make the key large enough to fit the whole plaintext.
     key: str = KEY
     while len(key) < len(cipher_text):

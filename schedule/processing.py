@@ -3,7 +3,7 @@ from mongo.mongo import Mongo
 
 
 # Filter unneccesairy records out of the schedule
-def filter_schedule(schedule: list, show_zelfstudie: bool) -> list:
+def filter_schedule(schedule: list, show_zelfstudie: bool):
     filtered: list = []
 
     # Determine the first and last day of the selected week.
@@ -32,7 +32,7 @@ def filter_schedule(schedule: list, show_zelfstudie: bool) -> list:
 
 
 # Convert all the times from UNIX and string to datetime
-def convert_dates(schedule: list) -> list:
+def convert_dates(schedule: list):
     for record in schedule:
         starttijd = float(str(record["starttijd"])[0:10])
         eindtijd = float(str(record["eindtijd"])[0:10])
@@ -45,7 +45,7 @@ def convert_dates(schedule: list) -> list:
     return schedule
 
 
-def set_type(schedule: list) -> list:
+def set_type(schedule: list):
 
     for record in schedule:
         record["type"] = 'Werkcollege'
@@ -59,7 +59,7 @@ def set_type(schedule: list) -> list:
 
 
 # Group all the record by date in a dictionary.
-def group_by_date(schedule: list) -> dict:
+def group_by_date(schedule: list):
     grouped: dict = {}
 
     for record in schedule:

@@ -24,7 +24,7 @@ if not Mongo.CONNECTED:
 
 
 @app.route('/', methods=['GET'])
-def schedule() -> Response | str:
+def schedule():
     # You need a browser_guid to do anything. Make sure you have one.
     if request.cookies.get("mongo_browser_guid") is None:
         mongo_browser_guid: str = MongoQueue.pop()
@@ -69,7 +69,7 @@ def schedule() -> Response | str:
 
 
 @app.route('/authenticate', methods=['GET', 'POST'])
-def authenticate() -> Response | str:
+def authenticate():
     if request.cookies.get("mongo_browser_guid") is None:
         return redirect("/")
 
@@ -92,13 +92,13 @@ def authenticate() -> Response | str:
 
 
 @app.route('/reload', methods=['GET'])
-def reload() -> Response:
+def reload():
     Settings.load()
     return redirect('/')
 
 
 @app.route('/set_week', methods=['GET'])
-def set_week() -> Response:
+def set_week():
     inc: int = int(request.args.get('inc'))
 
     # If you pick 'this week', set it to the current week. Otherwise, look at the current viewing date.
@@ -113,7 +113,7 @@ def set_week() -> Response:
 
 
 @app.route('/error', methods=['GET'])
-def error() -> str:
+def error():
     error: str = request.args.get("e")
 
     return render_template(
@@ -122,5 +122,5 @@ def error() -> str:
     )
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
